@@ -1,19 +1,63 @@
-namespace ElevensGame.GameLogic
+namespace ElevensConsole;
+// Enum for the four suits in a standard deck
+public enum Suit { Hearts, Diamonds, Clubs, Spades }
+// Enum for ranks; Ace starts at 1, then goes up
+public enum Rank
 {
-    public class Card
+    Ace = 1, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten,
+    Jack, Queen, King
+}
+
+public class Card
+{
+    public Suit Suit { get; }
+    public Rank Rank { get; }
+
+    // Constructor initializes the card with a suit and rank
+    public Card(Suit suit, Rank rank)
     {
-        public int Rank { get; }  // Values 1-10, J, Q, K
-        public string Suit { get; }  // Hearts, Diamonds, Clubs, Spades
+        Suit = suit;
+        Rank = rank;
+    }
 
-        public Card(int rank, string suit)
+    // For the “sum to 11” rule:
+    public int PointValue =>
+        Rank switch
         {
-            Rank = rank;
-            Suit = suit;
-        }
+            Rank.Ace => 1,
+            Rank.Two => 2,
+            Rank.Three => 3,
+            Rank.Four => 4,
+            Rank.Five => 5,
+            Rank.Six => 6,
+            Rank.Seven => 7,
+            Rank.Eight => 8,
+            Rank.Nine => 9,
+            Rank.Ten => 10,
+            _ => 0 // Jack/Queen/King not used in 11-pairs
+        };
 
-        public override string ToString()
+    // Converts the card into a short, readable string for display
+    public override string ToString()
+    {
+        string r = Rank switch
         {
-            return $"{Rank} of {Suit}";
-        }
+            Rank.Ace => "A",
+            Rank.Jack => "J",
+            Rank.Queen => "Q",
+            Rank.King => "K",
+            _ => ((int)Rank).ToString()
+        };
+
+        string s = Suit switch
+        {
+            Suit.Hearts => "♥",
+            Suit.Diamonds => "♦",
+            Suit.Clubs => "♣",
+            Suit.Spades => "♠",
+            _ => "?"
+        };
+
+        return $"{r}{s}";
     }
 }
